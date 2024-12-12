@@ -5,6 +5,7 @@ if (navigator.geolocation) {
         (position) => {
             const { latitude, longitude } = position.coords
             socket.emit('send-location', { latitude, longitude })
+
         },
         (error) => {
             console.log(error)
@@ -16,7 +17,7 @@ if (navigator.geolocation) {
         })
 }
 
-const map = L.map('map').setView([0, 100], 16)
+const map = L.map('map').setView([0, 0], 10)
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: "OpenStreetMap"
@@ -26,7 +27,6 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 const markers = {}
 
 socket.on('received-location', (data) => {
-    console.log(data, markers)
     const { id, latitude, longitude } = data;
     console.log('id', id);
     map.setView([latitude, longitude], 16);
